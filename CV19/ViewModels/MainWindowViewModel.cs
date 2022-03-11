@@ -11,6 +11,14 @@ namespace CV19.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set => _selectedIndex = value;
+        }
+
+
         #region TestDataPoints
 
         private IEnumerable<DataPoint> _testDataPoints;
@@ -57,9 +65,18 @@ namespace CV19.ViewModels
         {
             Application.Current.Shutdown();
         }
+        private bool CanCloseApplicationCommandExecute(object p) => true;
 
-        private bool CanCloseApplicationCommandExecute(object p) => true; 
+        #endregion
 
+        #region ChangeTabIndexCommand
+        public ICommand ChangeTabIndexCommand { get; }
+        private bool CanChangeTabIndexCommandExecute(object p) => _selectedIndex >= 0;
+        private void OnChangeTabIndexCommandExecuted(object p)
+        {
+            if (p is null) return;
+            _selectedIndex += Convert.ToInt32(p);
+        } 
         #endregion
 
         #endregion
@@ -70,6 +87,7 @@ namespace CV19.ViewModels
             #region Команды
 
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
+            ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
 
             #endregion
 
