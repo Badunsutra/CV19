@@ -8,7 +8,7 @@ namespace CV19.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
         #region Title
-        private string _title;
+        private string _title = "Анализ статистики CV19";
 
         /// <summary>Заголовок окна</summary>
         public string Title
