@@ -12,12 +12,15 @@
         xmlns:l="clr-namespace:CV19.Views.Windows"        
         Title="{Binding Title}"
         Height="450" Width="800">
+    
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    
     <Window.Resources>
         <cmd:CloseApplicationCommand x:Key="CloseApplicationCommand"/>
     </Window.Resources>
+    
     <Window.InputBindings>
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding CloseApplicationCommand}"/>
     </Window.InputBindings>
@@ -133,14 +136,14 @@
                         <DockPanel>
                             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
                                 <UniformGrid.Resources>
-                                    <Style x:Key="ButtomStyle" TargetType="Button">
+                                    <Style TargetType="Button">
                                         <Setter Property="Margin" Value="3,0"/>
                                         <Setter Property="Padding" Value="3,5"/>
                                         <Setter Property="Background" Value="White"/>
                                     </Style>
                                 </UniformGrid.Resources>
-                                <Button Content="Добавить" Style="{StaticResource ButtomStyle}" Command="{Binding CreateNewGroupCommand}"/>
-                                <Button Content="Удалить" Style="{StaticResource ButtomStyle}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
+                                <Button Content="Добавить" Style="{StaticResource PrimaryBtn}" Command="{Binding CreateNewGroupCommand}"/>
+                                <Button Content="Удалить" Style="{StaticResource DangerBtn}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
                             </UniformGrid>
                             <ListBox ItemsSource="{Binding Groups}" SelectedIndex="0"
                                  SelectedItem="{Binding SelectedGroup}">
