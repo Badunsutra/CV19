@@ -9,7 +9,7 @@ namespace CV19.Models.Decanat
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Patronymic { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateTime Birthday { get; set; } = DateTime.Now;
         public double Rating { get; set; }
         public string Description { get; set; }
     }
