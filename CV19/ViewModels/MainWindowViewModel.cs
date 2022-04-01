@@ -14,11 +14,19 @@ namespace CV19.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        
         public ObservableCollection<Group> Groups { get; }
 
-        private Group _selectedGroup;
 
+        private Group _selectedGroup;
         public Group SelectedGroup { get => _selectedGroup; set => Set(ref _selectedGroup, value); }
+
+        public object[] CompositeObject { get; }
+
+
+        private object _selectedCompositeObject;
+        public object SelectedCompositeObject { get => _selectedCompositeObject; set => Set(ref _selectedCompositeObject, value); }
+
 
 
         #region SelectedIndex
@@ -133,6 +141,15 @@ namespace CV19.ViewModels
             });
 
             Groups = new ObservableCollection<Group>(groups);
+
+            var data_List = new List<object>();
+            data_List.Add("Hello World!");
+            data_List.Add(42);
+            var group = Groups[1];
+            data_List.Add(group);
+            data_List.Add(group.Students[0]);
+
+            CompositeObject = data_List.ToArray();
         }
     }
 }

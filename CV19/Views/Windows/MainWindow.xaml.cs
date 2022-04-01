@@ -21,5 +21,10 @@ namespace CV19.Views.Windows
         {
             InitializeComponent();
         }
+
+        private void ListBox_Selected(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
