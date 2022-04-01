@@ -16,6 +16,9 @@ namespace CV19.ViewModels
     {
         public ObservableCollection<Group> Groups { get; }
 
+        private Group _selectedGroup;
+
+        public Group SelectedGroup { get => _selectedGroup; set => Set(ref _selectedGroup, value); }
 
 
         #region SelectedIndex
