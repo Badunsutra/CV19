@@ -97,30 +97,7 @@
                             <TextBlock>Выбранный элемент</TextBlock>
                         </GroupBox.Header>
                         <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type decanat:Group}">
-                                <TextBlock Text="{Binding Name, StringFormat=Группа: {0}}"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="30"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type decanat:Student}">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="30"
-                                           Text="{Binding Name, StringFormat=Студент: {0}}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:String}">
-                                <TextBlock HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
-                                           FontSize="30">
-                                    <Run Foreground="Red" FontWeight="Bold">Строка:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:Int32}">
-                                <TextBlock>
-                                    Число: <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
+                            <ResourceDictionary Source="../../Resources/DataTemplates/CompositeListItemsDataTemplates.xaml"/>
                         </GroupBox.Resources>
                         <ContentControl Content="{Binding SelectedCompositeObject}"/>
                     </GroupBox>
@@ -135,13 +112,6 @@
                     <GroupBox Grid.Column="0" Header="Группы">
                         <DockPanel>
                             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
-                                <UniformGrid.Resources>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Margin" Value="3,0"/>
-                                        <Setter Property="Padding" Value="3,5"/>
-                                        <Setter Property="Background" Value="White"/>
-                                    </Style>
-                                </UniformGrid.Resources>
                                 <Button Content="Добавить" Style="{StaticResource PrimaryBtn}" Command="{Binding CreateNewGroupCommand}"/>
                                 <Button Content="Удалить" Style="{StaticResource DangerBtn}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
                             </UniformGrid>
