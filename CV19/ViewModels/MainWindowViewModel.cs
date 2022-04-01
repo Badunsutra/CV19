@@ -100,6 +100,35 @@ namespace CV19.ViewModels
         }
         #endregion
 
+        #region CreateNewGroupCommand
+        public ICommand CreateNewGroupCommand { get; }
+        private bool CanCreateNewGroupCommandExecute(object p) => true;
+        private void OnCreateNewGroupCommandExecuted(object p)
+        {
+            var group_max_index = Groups.Count + 1;
+            var new_group = new Group
+            {
+                Name = $"Группа {group_max_index}",
+                Students = new ObservableCollection<Student>(),
+            };
+
+            Groups.Add(new_group);
+        } 
+        #endregion
+
+        #region DeleteGroupCommand
+        public ICommand DeleteGroupCommand { get; }
+        private bool CanDeleteGroupCommandExecute(object p) => p is Group group && Groups.Contains(group);
+        private void OnDeleteGroupCommandExecuted(object p)
+        {
+            if (!(p is Group group)) return;
+            var group_index = Groups.IndexOf(group);
+            Groups.Remove(group);
+            if(group_index < Groups.Count)
+                SelectedGroup = Groups[group_index];
+        } 
+        #endregion
+
         #endregion
 
         /*----------------------------------------------------------------------------------------------------------------------------------------*/
@@ -110,6 +139,8 @@ namespace CV19.ViewModels
 
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
             ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
+            CreateNewGroupCommand = new LambdaCommand(OnCreateNewGroupCommandExecuted, CanCreateNewGroupCommandExecute);
+            DeleteGroupCommand = new LambdaCommand(OnDeleteGroupCommandExecuted, CanDeleteGroupCommandExecute);
 
             #endregion
 
