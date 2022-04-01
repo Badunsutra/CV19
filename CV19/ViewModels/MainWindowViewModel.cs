@@ -71,11 +71,11 @@ namespace CV19.ViewModels
 
         #region ChangeTabIndexCommand
         public ICommand ChangeTabIndexCommand { get; }
-        private bool CanChangeTabIndexCommandExecute(object p) => _selectedIndex >= 0;
+        private bool CanChangeTabIndexCommandExecute(object p) => SelectedIndex >= 0;
         private void OnChangeTabIndexCommandExecuted(object p)
         {
             if (p is null) return;
-            _selectedIndex += Convert.ToInt32(p);
+            SelectedIndex += Convert.ToInt32(p);
         } 
         #endregion
 
