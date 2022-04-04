@@ -18,24 +18,6 @@ namespace CV19.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
         
-        public ObservableCollection<Group> Groups { get; }
-
-
-        #region SelectedGroup
-        private Group _selectedGroup;
-        public Group SelectedGroup 
-        { 
-            get => _selectedGroup;
-            set 
-            {
-                if(!Set(ref _selectedGroup, value))
-                    return;
-                _SelectedGroupStudents.Source = value?.Students;
-                OnPropertyChanged(nameof(SelectedGroupStudents));
-            } 
-        }
-        #endregion
-
         #region SelectedGroupStudents
         private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
         public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
@@ -77,13 +59,6 @@ namespace CV19.ViewModels
             }
         }
         #endregion
-
-        public object[] CompositeObject { get; }
-
-        private object _selectedCompositeObject;
-        public object SelectedCompositeObject { get => _selectedCompositeObject; set => Set(ref _selectedCompositeObject, value); }
-
-
 
         #region SelectedIndex
         private int _selectedIndex;
@@ -130,17 +105,6 @@ namespace CV19.ViewModels
 
         #endregion
 
-        public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
-
-        #region SelectedDirectory
-        private DirectoryViewModel _SelectedDirectory;
-        public DirectoryViewModel SelectedDirectory
-        {
-            get => _SelectedDirectory;
-            set => Set(ref _SelectedDirectory, value);
-        } 
-        #endregion
-
         /*----------------------------------------------------------------------------------------------------------------------------------------*/
 
         #region Команды
@@ -167,35 +131,6 @@ namespace CV19.ViewModels
         }
         #endregion
 
-        #region CreateNewGroupCommand
-        public ICommand CreateNewGroupCommand { get; }
-        private bool CanCreateNewGroupCommandExecute(object p) => true;
-        private void OnCreateNewGroupCommandExecuted(object p)
-        {
-            var group_max_index = Groups.Count + 1;
-            var new_group = new Group
-            {
-                Name = $"Группа {group_max_index}",
-                Students = new ObservableCollection<Student>(),
-            };
-
-            Groups.Add(new_group);
-        } 
-        #endregion
-
-        #region DeleteGroupCommand
-        public ICommand DeleteGroupCommand { get; }
-        private bool CanDeleteGroupCommandExecute(object p) => p is Group group && Groups.Contains(group);
-        private void OnDeleteGroupCommandExecuted(object p)
-        {
-            if (!(p is Group group)) return;
-            var group_index = Groups.IndexOf(group);
-            Groups.Remove(group);
-            if(group_index < Groups.Count)
-                SelectedGroup = Groups[group_index];
-        } 
-        #endregion
-
         #endregion
 
         /*----------------------------------------------------------------------------------------------------------------------------------------*/
@@ -206,8 +141,6 @@ namespace CV19.ViewModels
 
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
             ChangeTabIndexCommand = new LambdaCommand(OnChangeTabIndexCommandExecuted, CanChangeTabIndexCommandExecute);
-            CreateNewGroupCommand = new LambdaCommand(OnCreateNewGroupCommandExecuted, CanCreateNewGroupCommandExecute);
-            DeleteGroupCommand = new LambdaCommand(OnDeleteGroupCommandExecuted, CanDeleteGroupCommandExecute);
 
             #endregion
 
@@ -238,17 +171,6 @@ namespace CV19.ViewModels
                 Description = string.Empty,
                 Students = new ObservableCollection<Student>(students)
             });
-
-            Groups = new ObservableCollection<Group>(groups);
-
-            var data_List = new List<object>();
-            data_List.Add("Hello World!");
-            data_List.Add(42);
-            var group = Groups[1];
-            data_List.Add(group);
-            data_List.Add(group.Students[0]);
-
-            CompositeObject = data_List.ToArray();
 
             _SelectedGroupStudents.Filter += OnStudentFiltred;
 

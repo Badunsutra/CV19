@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -25,7 +26,7 @@ namespace CV19.Services
         }
         private static IEnumerable<string> GetDataLines()
         {
-            using var data_strream = Task.Run(GetDataStream).Result;
+            using var data_strream = (SynchronizationContext.Current is null ? GetDataStream() : Task.Run(GetDataStream)).Result;
             using var data_reader = new StreamReader(data_strream);
 
             while (!data_reader.EndOfStream)

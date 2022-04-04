@@ -7,6 +7,7 @@
         xmlns:cmd="clr-namespace:CV19.Infrastructure.Commands"
         xmlns:decanat="clr-namespace:CV19.Models.Decanat"
         xmlns:vm="clr-namespace:CV19.ViewModels"
+		xmlns:view="clr-namespace:CV19.Views"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
         xmlns:oxy="http://oxyplot.org/wpf"
         xmlns:sys="clr-namespace:System;assembly=System.Runtime"
@@ -49,7 +50,10 @@
             </StatusBarItem>
             <StatusBarItem Content="{Binding Path=SelectedIndex}"/>
         </StatusBar>
-        <TabControl x:Name="Tabs" SelectedIndex="2">
+        <TabControl x:Name="Tabs">
+			<TabItem Header="Статистика">
+				<view:CountriesStatisticView/>
+			</TabItem>
             <TabItem Header="Студенты">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -75,7 +79,7 @@
                                 <TextBox Name="groupNameFilterText" TextChanged="OnGroupsFilterTextChanged"/>
                             </DockPanel>
                             <UniformGrid DockPanel.Dock="Bottom" Rows="1" Margin="0,3">
-                                <Button Style="{StaticResource PrimaryBtn}" Command="{Binding CreateNewGroupCommand}">
+                                <Button Style="{StaticResource PrimaryBtn}">
                                     <Button.Content>
                                         <StackPanel Orientation="Horizontal">
                                             <fa:ImageAwesome Height="12" Icon="Solid_Check" Foreground="LightGreen" Margin="0,0,3,0">
@@ -87,7 +91,7 @@
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
-                                <Button Content="Удалить" Style="{StaticResource DangerBtn}" Command="{Binding DeleteGroupCommand}" CommandParameter="{Binding SelectedGroup}"/>
+                                <Button Content="Удалить" Style="{StaticResource DangerBtn}"/>
                             </UniformGrid>
                             <ListBox ItemsSource="{Binding Source={StaticResource GroupsCollection}}" SelectedIndex="0"
                                      SelectedItem="{Binding SelectedGroup}"
@@ -159,7 +163,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem Visibility="Collapsed">
+            <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa:ImageAwesome Icon="Solid_ChartLine" Height="13" Margin="0,0,5,0"/>
@@ -176,45 +180,6 @@
                                     DataFieldX="XValue"
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
-            </TabItem>
-            <TabItem Header="Файловая система">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Grid.Column="0" Header="Директории">
-                        <!--<ListBox ItemsSource="{Binding DiskRootDir.DirectoryItems}"
-                                 SelectedItem="{Binding SelectedDirectory}"
-                                 SelectedIndex="0">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate DataType="vm:DirectoryViewModel">
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>-->
-                        <GroupBox.Resources>
-                            <HierarchicalDataTemplate DataType="{x:Type vm:DirectoryViewModel}"
-                                                          ItemsSource="{Binding DirectoryItems}">
-                                <StackPanel Orientation="Horizontal">
-                                    <fa:ImageAwesome Height="12" Icon="Regular_Folder" Foreground="LightBlue" Margin="0,0,3,0"/>
-                                    <TextBlock Text="{Binding Name}" ToolTip="{Binding CreationTime}"/>
-                                </StackPanel>
-                            </HierarchicalDataTemplate>
-                            <DataTemplate DataType="{x:Type vm:FileViewModel}">
-                                <StackPanel Orientation="Horizontal" ToolTip="{Binding CreationTime}">
-                                    <fa:ImageAwesome Height="12" Icon="Regular_File" Foreground="Blue" Margin="0,0,3,0"/>
-                                    <TextBlock Text="{Binding Name}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GroupBox.Resources>
-                        <TreeView ItemsSource="{Binding DiskRootDir.DirectoryItems}"/>
-                    </GroupBox>
-                    <!--<GroupBox Grid.Column="1" Header="Файлы">
-                        <ListBox SelectedItem="{Binding SelectedDirectory.Files, Mode=OneWay}">
-                        </ListBox>
-                    </GroupBox>-->
-                </Grid>
             </TabItem>
         </TabControl>
     </DockPanel>
