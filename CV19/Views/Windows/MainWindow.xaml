@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:cmd="clr-namespace:CV19.Infrastructure.Commands"
         xmlns:decanat="clr-namespace:CV19.Models.Decanat"
         xmlns:vm="clr-namespace:CV19.ViewModels"
@@ -59,9 +60,15 @@
                         <DockPanel>
                             <DockPanel.Resources>
                                 <CollectionViewSource x:Key="GroupsCollection"
-                                                      x:Name="GroupsCollection"
                                                       Source="{Binding Groups}"
-                                                      Filter="GroupCollection_OnFilter"/>
+                                                      Filter="GroupCollection_OnFilter">
+                                    <CollectionViewSource.SortDescriptions>
+                                        <cm:SortDescription PropertyName="Name" Direction="Descending"/>
+                                    </CollectionViewSource.SortDescriptions>
+                                    <CollectionViewSource.GroupDescriptions>
+                                        <PropertyGroupDescription PropertyName="Students.Count"/>
+                                    </CollectionViewSource.GroupDescriptions>
+                                </CollectionViewSource>
                             </DockPanel.Resources>
                             <DockPanel DockPanel.Dock="Top" Margin="0,3">
                                 <fa:ImageAwesome Height="12" Icon="Solid_Search" Margin="3,0"/>
@@ -111,13 +118,16 @@
                         <DockPanel>
                             <DockPanel DockPanel.Dock="Top" Margin="0,3">
                                 <fa:ImageAwesome Height="12" Icon="Solid_Search" Margin="3,0"/>
-                                <TextBox/>
+                                <TextBox Text="{Binding StudentFilterText, UpdateSourceTrigger=PropertyChanged}"/>
                             </DockPanel>
-                            <DataGrid ItemsSource="{Binding SelectedGroup.Students}"
+                            <DataGrid ItemsSource="{Binding SelectedGroupStudents}"
                                   AutoGenerateColumns="False"
                                   GridLinesVisibility="Vertical"
                                   VerticalGridLinesBrush="DarkGray"
                                   AlternatingRowBackground="LightGray">
+                                <!--<DataGrid.GroupStyle>
+                                    <GroupStyle></GroupStyle>
+                                </DataGrid.GroupStyle>-->
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}"/>
                                     <DataGridTextColumn Header="Имя" Binding="{Binding Name}"/>

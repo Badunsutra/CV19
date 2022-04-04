@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Data;
+using System.ComponentModel;
 
 namespace CV19.ViewModels
 {
@@ -18,11 +20,64 @@ namespace CV19.ViewModels
         public ObservableCollection<Group> Groups { get; }
 
 
+        #region SelectedGroup
         private Group _selectedGroup;
-        public Group SelectedGroup { get => _selectedGroup; set => Set(ref _selectedGroup, value); }
+        public Group SelectedGroup 
+        { 
+            get => _selectedGroup;
+            set 
+            {
+                if(!Set(ref _selectedGroup, value))
+                    return;
+                _SelectedGroupStudents.Source = value?.Students;
+                OnPropertyChanged(nameof(SelectedGroupStudents));
+            } 
+        }
+        #endregion
+
+        #region SelectedGroupStudents
+        private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
+        public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
+        private void OnStudentFiltred(object sender, FilterEventArgs e)
+        {
+            if(!(e.Item is Student student))
+            {
+                e.Accepted = false;
+                return;
+            }
+
+            var filter_text = _StudentFilterText;
+            if (string.IsNullOrEmpty(filter_text))
+                return;
+
+            if(student.Name is null || student.Surname is null || student.Patronymic is null)
+            {
+                e.Accepted= false;
+                return;
+            }
+
+            if (student.Name.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Surname.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+            if (student.Patronymic.Contains(filter_text, StringComparison.OrdinalIgnoreCase)) return;
+
+            e.Accepted = false;
+        }
+        #endregion
+
+        #region StudentFilterText
+        private string _StudentFilterText;
+        public string StudentFilterText
+        {
+            get => _StudentFilterText;
+            set
+            {
+                if(!Set(ref _StudentFilterText, value)) return;
+                _SelectedGroupStudents.View.Refresh();
+            }
+        }
+        #endregion
 
         public object[] CompositeObject { get; }
-
 
         private object _selectedCompositeObject;
         public object SelectedCompositeObject { get => _selectedCompositeObject; set => Set(ref _selectedCompositeObject, value); }
@@ -182,6 +237,12 @@ namespace CV19.ViewModels
             data_List.Add(group.Students[0]);
 
             CompositeObject = data_List.ToArray();
+
+            _SelectedGroupStudents.Filter += OnStudentFiltred;
+
+            _SelectedGroupStudents.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+            //_SelectedGroupStudents.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
         }
+
     }
 }
