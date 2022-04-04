@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Data;
 using System.ComponentModel;
+using System.IO;
 
 namespace CV19.ViewModels
 {
@@ -127,6 +128,17 @@ namespace CV19.ViewModels
             set => Set(ref _status, value);
         }
 
+        #endregion
+
+        public DirectoryViewModel DiskRootDir { get; } = new DirectoryViewModel("c:\\");
+
+        #region SelectedDirectory
+        private DirectoryViewModel _SelectedDirectory;
+        public DirectoryViewModel SelectedDirectory
+        {
+            get => _SelectedDirectory;
+            set => Set(ref _SelectedDirectory, value);
+        } 
         #endregion
 
         /*----------------------------------------------------------------------------------------------------------------------------------------*/
