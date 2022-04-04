@@ -17,7 +17,14 @@ namespace CV19.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        
+        /*----------------------------------------------------------------------------------------------------------------------------------------*/
+
+        private readonly CountriesStatisticViewModel _CountriesStatistic;
+
+
+        /*----------------------------------------------------------------------------------------------------------------------------------------*/
+
+
         #region SelectedGroupStudents
         private readonly CollectionViewSource _SelectedGroupStudents = new CollectionViewSource();
         public ICollectionView SelectedGroupStudents => _SelectedGroupStudents?.View;
@@ -137,6 +144,8 @@ namespace CV19.ViewModels
 
         public MainWindowViewModel()
         {
+            _CountriesStatistic = new CountriesStatisticViewModel(this);
+
             #region Команды
 
             CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
