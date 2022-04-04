@@ -38,16 +38,6 @@
             <MenuItem Header="Помощь">
                 <MenuItem Header="О программе"/>
             </MenuItem>
-            <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="-1">
-                <MenuItem.Header>
-                    <fa:ImageAwesome Height="12" Icon="Regular_ArrowAltCircleLeft"></fa:ImageAwesome>
-                </MenuItem.Header>
-            </MenuItem>
-            <MenuItem Command="{Binding ChangeTabIndexCommand}" CommandParameter="1">
-                <MenuItem.Header>
-                    <fa:ImageAwesome Height="12" Icon="Regular_ArrowAltCircleRight"></fa:ImageAwesome>
-                </MenuItem.Header>
-            </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <StatusBarItem>
@@ -59,50 +49,6 @@
             <StatusBarItem Content="{Binding Path=SelectedIndex}"/>
         </StatusBar>
         <TabControl x:Name="Tabs" SelectedIndex="{Binding Path=SelectedIndex}">
-            <TabItem Header="Разнородные данные">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="250"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <GroupBox Grid.Row="0">
-                        <GroupBox.Header>
-                            <TextBlock Text="Элементы"/>
-                        </GroupBox.Header>
-                        <GroupBox.Resources>
-                            <DataTemplate DataType="{x:Type decanat:Group}">
-                                <TextBlock Text="{Binding Name, StringFormat=Группа: {0}}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type decanat:Student}">
-                                <TextBlock Text="{Binding Name, StringFormat=Студент: {0}}"/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:String}">
-                                <TextBlock>
-                                    <Run Foreground="Red" FontWeight="Bold">
-                                    Строка:</Run> <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type sys:Int32}">
-                                <TextBlock>
-                                    Число: <TextBlock Text="{Binding}"/>
-                                </TextBlock>
-                            </DataTemplate>
-                        </GroupBox.Resources>
-                        <ListBox Grid.Column="0" ItemsSource="{Binding CompositeObject}"
-                                 SelectedItem="{Binding SelectedCompositeObject}">
-                        </ListBox>
-                    </GroupBox>
-                    <GroupBox Grid.Column="1">
-                        <GroupBox.Header>
-                            <TextBlock>Выбранный элемент</TextBlock>
-                        </GroupBox.Header>
-                        <GroupBox.Resources>
-                            <ResourceDictionary Source="../../Resources/DataTemplates/CompositeListItemsDataTemplates.xaml"/>
-                        </GroupBox.Resources>
-                        <ContentControl Content="{Binding SelectedCompositeObject}"/>
-                    </GroupBox>
-                </Grid>
-            </TabItem>
             <TabItem Header="Студенты">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -180,7 +126,7 @@
                     </GroupBox>
                 </Grid>
             </TabItem>
-            <TabItem>
+            <TabItem Visibility="Collapsed">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <fa:ImageAwesome Icon="Solid_ChartLine" Height="13" Margin="0,0,5,0"/>
@@ -197,50 +143,6 @@
                                     DataFieldX="XValue"
                                     DataFieldY="YValue"/>
                 </oxy:Plot>
-            </TabItem>
-            <TabItem Header="Вкладка">
-                <Button VerticalAlignment="Top" HorizontalAlignment="Left"
-                        Content="123" Margin="20,40" Padding="15,5"
-                        Width="110" RenderTransformOrigin="0.5,0.5">
-                    <Button.Background>
-                        <SolidColorBrush Color="White" x:Name="BtnBrush"/>
-                    </Button.Background>
-                    <Button.RenderTransform>
-                        <RotateTransform Angle="0" x:Name="BtnRotate"/>
-                    </Button.RenderTransform>
-                    <Button.Triggers>
-                        <EventTrigger RoutedEvent="Button.Click">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="BtnRotate"
-                                                     Storyboard.TargetProperty="Angle"
-                                                     From="0" To="1440"
-                                                     Duration="0:0:1"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Button.MouseEnter">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="BtnBrush"
-                                                    Storyboard.TargetProperty="Color"
-                                                    Duration="0:0:0.1"
-                                                    To="Red"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Button.MouseLeave">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <ColorAnimation Storyboard.TargetName="BtnBrush"
-                                                    Storyboard.TargetProperty="Color"
-                                                    Duration="0:0:1"
-                                                    To="White"/>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
-                    </Button.Triggers>
-                </Button>
             </TabItem>
         </TabControl>
     </DockPanel>
