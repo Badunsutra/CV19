@@ -52,7 +52,7 @@
         </StatusBar>
         <TabControl x:Name="Tabs">
 			<TabItem Header="Статистика">
-				<view:CountriesStatisticView/>
+				<view:CountriesStatisticView DataContext="{Binding Path=CountriesStatistic}"/>
 			</TabItem>
             <TabItem Header="Студенты">
                 <Grid>

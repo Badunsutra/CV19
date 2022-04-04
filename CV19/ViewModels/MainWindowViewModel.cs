@@ -19,7 +19,7 @@ namespace CV19.ViewModels
     {
         /*----------------------------------------------------------------------------------------------------------------------------------------*/
 
-        private readonly CountriesStatisticViewModel _CountriesStatistic;
+        public CountriesStatisticViewModel CountriesStatistic { get; }
 
 
         /*----------------------------------------------------------------------------------------------------------------------------------------*/
@@ -144,7 +144,7 @@ namespace CV19.ViewModels
 
         public MainWindowViewModel()
         {
-            _CountriesStatistic = new CountriesStatisticViewModel(this);
+            CountriesStatistic = new CountriesStatisticViewModel(this);
 
             #region Команды
 

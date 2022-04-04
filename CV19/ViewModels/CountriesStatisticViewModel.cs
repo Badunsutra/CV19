@@ -4,7 +4,9 @@ using CV19.Services;
 using CV19.ViewModels.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CV19.ViewModels
@@ -13,8 +15,6 @@ namespace CV19.ViewModels
     {
         private DataService _DataService;
         private MainWindowViewModel _MainWindow { get; }
-
-
 
         #region Countries
         private IEnumerable<CountryInfo> _Countries;
@@ -33,14 +33,11 @@ namespace CV19.ViewModels
         #region RefreshDataCommand
         public ICommand RefreshDataCommand { get; }
 
-        private void OnRefreshDataCommandExecute(object p)
-        {
-            Countries = _DataService.GetData();
-        }
+        private void OnRefreshDataCommandExecuted(object p) => Countries = _DataService.GetData();
+        private bool CanRefreshDataCommandExecute(object p) => true;
         #endregion
 
         #endregion
-
 
         public CountriesStatisticViewModel(MainWindowViewModel MainModel)
         {
@@ -50,9 +47,31 @@ namespace CV19.ViewModels
 
             #region Commands
 
-            RefreshDataCommand = new LambdaCommand(OnRefreshDataCommandExecute); 
+            RefreshDataCommand = new LambdaCommand(OnRefreshDataCommandExecuted, CanRefreshDataCommandExecute); 
 
             #endregion
+        }
+
+        /// <summary>
+        /// Отладочный конструктор, используемый в процессе разработки в визуальном дизайнере
+        /// </summary>
+        public CountriesStatisticViewModel() : this(null)
+        {
+            _Countries = Enumerable.Range(1, 10)
+                .Select(i => new CountryInfo
+                {
+                    Name = $"Country {i}",
+                    ProvinceCounts = Enumerable.Range(1, 10).Select(j => new PlaceInfo
+                    {
+                        Name = $"Province {i}",
+                        Location = new Point(i, j),
+                        Counts = Enumerable.Range(1, 10).Select(k => new ConfirmedCount
+                        {
+                            Date = DateTime.Now.Subtract(TimeSpan.FromDays(100 - k)),
+                            Count = k
+                        }).ToArray()
+                    }).ToArray()
+                }).ToArray();
         }
     }
 }

@@ -58,12 +58,18 @@ namespace CV19.Services
                 return result;
             }
 
+            double GetDouble(string s)
+            {
+                double.TryParse(s, out double t);
+                return t;
+            }
+
             foreach (var row in lines)
             {
                 var province = row[0].Trim();
                 var country_name = row[1].Trim(' ', '"');
-                var latitude = double.Parse(row[2]);
-                var longitude = double.Parse(row[3]);
+                var latitude = double.Parse(row[2].Replace('.', ','), CultureInfo.InvariantCulture);
+                var longitude = double.Parse(row[3].Replace('.', ','), CultureInfo.InvariantCulture);
                 var counts = row.Skip(4).Select(GetParse).ToArray();
 
                 yield return (province, country_name, (latitude, longitude), counts);
