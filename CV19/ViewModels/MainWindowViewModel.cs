@@ -168,6 +168,7 @@ namespace CV19.ViewModels
             var groups = Enumerable.Range(1, 20).Select(i => new Group
             {
                 Name = $"Группа {i}",
+                Description = string.Empty,
                 Students = new ObservableCollection<Student>(students)
             });
 
