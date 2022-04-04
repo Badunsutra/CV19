@@ -25,7 +25,7 @@ namespace CV19.Services
         }
         private static IEnumerable<string> GetDataLines()
         {
-            using var data_strream = GetDataStream().Result;
+            using var data_strream = Task.Run(GetDataStream).Result;
             using var data_reader = new StreamReader(data_strream);
 
             while (!data_reader.EndOfStream)
