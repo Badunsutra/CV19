@@ -32,9 +32,12 @@ namespace CV19.Services
             {
                 var line = data_reader.ReadLine();
                 if (string.IsNullOrEmpty(line)) continue;
-                yield return line.Replace("Korea,", "Korea -");
+                yield return line
+                    .Replace("Korea,", "Korea -")
+                    .Replace("Bonaire,", "Bonaire -");
             }
         }
+
         private static DateTime[] GetDates()
             => GetDataLines()
             .First()
