@@ -39,7 +39,7 @@ namespace CV19Console
             .Select(s => DateTime.Parse(s, CultureInfo.InvariantCulture))
             .ToArray();
 
-        private static IEnumerable<(string Country, string Province, int[] Counts)> GetData()
+        private static IEnumerable<(string Country, string Province, int[] Counts)> GetCountriesData()
         {
             var lines = GetDataLines()
                 .Skip(1)
@@ -78,7 +78,7 @@ namespace CV19Console
 
             //Console.WriteLine(string.Join("\r\n", dates));
 
-            var russia = GetData()
+            var russia = GetCountriesData()
                 .First(v => v.Country.Equals("Russia", StringComparison.OrdinalIgnoreCase));
 
             Console.WriteLine(string.Join("\r\n", GetDates().Zip(russia.Counts, (date, count) => $"{date:dd.MM.yyyy} - {count}")));
