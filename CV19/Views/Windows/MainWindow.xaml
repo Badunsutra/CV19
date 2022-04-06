@@ -49,7 +49,12 @@
             </StatusBarItem>
             <StatusBarItem Content="{Binding Path=SelectedIndex}"/>
         </StatusBar>
-        <TabControl x:Name="Tabs" SelectedIndex="2">
+        <TabControl x:Name="Tabs">
+            <TabItem Header="Статистика">
+                <Grid>
+                    
+                </Grid>
+            </TabItem>
             <TabItem Header="Студенты">
                 <Grid>
                     <Grid.ColumnDefinitions>
